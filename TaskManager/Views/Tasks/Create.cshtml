@@ -1,0 +1,41 @@
+﻿@model TaskManager.Models.TaskData
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" onsubmit="return ajaxPostback(this)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalWork" class="control-label"></label>
+                <input asp-for="TotalWork" class="form-control" />
+                <span asp-validation-for="TotalWork" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentWork" class="control-label"></label>
+                <input asp-for="CurrentWork" class="form-control" />
+                <span asp-validation-for="CurrentWork" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <select asp-for="State" class="form-control">
+                    <option>NotRunning</option>
+                    <option>Running</option>
+                </select>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <br />
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

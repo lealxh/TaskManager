@@ -32,6 +32,32 @@ namespace TaskManager.Controllers
             }
         }
 
+        // GET: Tasks/Create
+        public IActionResult Create()
+        {
+            return PartialView();
+        }
+
+        // POST: Tasks/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,TotalWork,CurrentWork,State")] TaskData taskData)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                using (var _context = dbcontextFactory.Create())
+                {
+                    _context.Add(taskData);
+                    await _context.SaveChangesAsync();
+                    return Json(new { isValid = true });
+                }
+            }
+             return Json(new { isValid = false });
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
