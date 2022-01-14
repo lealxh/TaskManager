@@ -3,7 +3,9 @@
 namespace TaskManager.Models
 {
     /// <summary>
-    /// Service to create Threads and manage the Cancelation tokens of those Threads
+    /// Service to create Threads and manage the Cancelation those Threads:
+    /// This service keeps in memory the Cancelation tokens given to each Thread in creation, 
+    /// asociated to a TaskId of the Task in DB
     /// </summary>
     public class ThreadManager : IThreadManager
     {

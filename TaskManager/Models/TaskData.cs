@@ -1,6 +1,11 @@
 ﻿namespace TaskManager.Models
 {
-    public enum state { Running, Canceled};
+    /// <summary>
+    /// Data of the Tasks to run in thread
+    /// TotalWork: is the number of iterations of this Task
+    /// CurrentWork: is the currently executed iterations
+    /// State is the Thread State: NotRunning, Running and Finished
+    /// </summary>
     public class TaskData
     {
 

@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TaskManager.Models
 {
+    /// <summary>
+    /// Sevice to create a new DbContext when needed.
+    /// </summary>
     public class DbContextFactory : IDbContextFactory
     {
 

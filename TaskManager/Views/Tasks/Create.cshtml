@@ -1,7 +1,7 @@
 ﻿@model TaskManager.Models.TaskData
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-12 col-md-12 col-lg-12" >
         <form asp-action="Create" onsubmit="return ajaxPostback(this)">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -23,6 +23,7 @@
                   <input type="hidden" value="NotStarted" asp-for="State" class="form-control"/>
             </div>
             <div class="form-group text-center">
+                <br />
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

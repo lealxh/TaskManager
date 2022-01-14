@@ -6,14 +6,14 @@
     
     <h1>Task Manager</h1>
       <a href="#" class="btn btn-primary" data-toggle="modal" onclick="showInPopup('/Tasks/Create','Create Task')">Add New</a>
-      <a href="#" class="btn btn-primary" data-toggle="modal" onclick="StartAll()"> Start All</a>
+      <a href="#" class="btn bg-success text-light" data-toggle="modal" onclick="StartAll()">
+          Start All</a>
     <div class="simulacion-inner">
        @Html.Partial("TasksPartial",this.Model)
     </div>
-</div>
 
-<div class="modal hide fade in" tabindex="-1" role="dialog" id="form-modal">
-      <div class="modal-dialog" role="document">
+     <div class="modal hide" tabindex="-1" role="dialog" id="form-modal">
+      <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"></h5>
@@ -27,3 +27,4 @@
             </div>
         </div>
     </div>
+</div>

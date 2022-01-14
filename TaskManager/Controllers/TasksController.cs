@@ -6,6 +6,7 @@ using TaskManager.Models;
 
 namespace TaskManager.Controllers
 {
+
     public class TasksController : Controller
     {
        
@@ -25,7 +26,18 @@ namespace TaskManager.Controllers
             }
             
         }
+        private async void UpdateState(Object state, string newState)
+        {
+            Models.ThreadState thread = state as Models.ThreadState;
+            using (var _myContext = dbcontextFactory.Create())
+            {
+                var taskData = await _myContext.Tasks.FindAsync(thread.TaskId);
+                taskData.State = newState;
+                await _myContext.SaveChangesAsync();
 
+            }
+        }
+        //The code executed by the Thread created
         public async void CallBack(Object state)
         {
             try
@@ -52,16 +64,13 @@ namespace TaskManager.Controllers
             }
             catch (System.Threading.Tasks.TaskCanceledException)
             {
-                throw;
+                UpdateState(state, "NotRunning");
 
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+           
         }
 
-        // GET: Processes
+        // GET method to update the Tasks visual state
         public async Task<IActionResult> TasksPartial()
         {
             using (var _context = dbcontextFactory.Create())
@@ -70,7 +79,7 @@ namespace TaskManager.Controllers
             }
         }
 
-        // GET: Processes
+        // Get method to delete the completed Task
         public async Task<IActionResult> Delete(int id)
         {
             using (var _context = dbcontextFactory.Create())
@@ -89,6 +98,7 @@ namespace TaskManager.Controllers
             }
         }
 
+        //Get method to Cancel a Thread curently running
         public async Task<IActionResult> CancelThread(int id)
         {
             using (var _context = dbcontextFactory.Create())
@@ -107,7 +117,7 @@ namespace TaskManager.Controllers
             }
         }
 
-        // GET: Processes
+        // GET method to start a Single Thread 
         public async Task<IActionResult> StartSingle(int id)
         {
             using (var _context = dbcontextFactory.Create())
@@ -123,26 +133,29 @@ namespace TaskManager.Controllers
             }
         }
 
-        // GET: Processes
+        // GET method to Start all the Task in state NotRunning
         public async Task<IActionResult> StartAll()
         {
             using (var _context = dbcontextFactory.Create())
             {
                 var tasks = await _context.Tasks.ToListAsync();
                 foreach (var item in tasks)
+                {
+                    if(item.State=="NotRunning")
                     this.threadManager.CreateTask(CallBack, item).Start();
+                }
 
                 return Json(new { isValid = true });
             }
         }
 
-        // GET: Tasks/Create
+        // GET method to Show the Form of Task creation
         public IActionResult Create()
         {
             return PartialView();
         }
 
-        // POST: Tasks/Create
+        // POST: to save the data of the Task sent
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]

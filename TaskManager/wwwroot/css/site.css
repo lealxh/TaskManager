@@ -1,5 +1,6 @@
 html {
-  font-size: 14px;
+    font-size: 10px;
+    font-family: 'Dongle', sans-serif;
 }
 
 @media (min-width: 768px) {
@@ -7,10 +8,12 @@ html {
     font-size: 16px;
   }
 }
-
+#form-modal {
+    max-width:1000px;
+}
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -19,7 +22,7 @@ body {
 
 
 .simulacion {
-    padding: 60px 45px;
+    padding: 10px 30px;
 }
 
 .simulacion-inner {
@@ -44,10 +47,15 @@ body {
     justify-content: space-between;
 }
 
-.container-inner h1 {
-    color: #283593;
-    font-size: 1.5rem;
+.simulacion h1 {
+  
+    font-size: 1.3rem;
     font-weight: normal;
     margin: 0;
     padding-bottom: 20px;
+}
+
+.simulacion a {
+    font-size: 0.8rem;
+    font-weight: normal;
 }
