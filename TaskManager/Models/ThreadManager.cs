@@ -17,8 +17,12 @@ namespace TaskManager.Models
         public void CancelTask(int id)
         {
             var state = States.SingleOrDefault(t => t.TaskId == id);
-            state.Source.Cancel();
-            States.Remove(state);
+            if (state != null)
+            {
+                state.Source.Cancel();
+                States.Remove(state);
+            }
+            
 
         }
 
@@ -31,6 +35,16 @@ namespace TaskManager.Models
             };
             States.Add(state);
             return new Task(action, state, state.Source.Token);
+
+        }
+
+        public void RemoveTask(int id)
+        {
+            var state = States.SingleOrDefault(t => t.TaskId == id);
+            if (state != null)
+            {
+                States.Remove(state);
+            }
 
         }
     }

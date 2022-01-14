@@ -1,17 +1,24 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets
 
+Delete = (id) => {
+    $.ajax({
+        type: 'GET',
+        url: '/Tasks/Delete/' + id,
+        success: function (res) {
+            LoadHTML("/Tasks/TasksPartial", ".simulacion-inner");
+        }
+    })
+}
 StartSingle = (id) => {
 
     $.ajax({
         type: 'GET',
         url: '/Tasks/StartSingle/'+id,
         success: function (res) {
-            console.log(res);
-
             setInterval(function () {
                 LoadHTML("/Tasks/TasksPartial", ".simulacion-inner");
-            }, 1000)
+            }, 3000)
         }
     })
 
@@ -25,7 +32,7 @@ StartAll = () => {
         success: function (res) {
             setInterval(function () {
                 LoadHTML("/Tasks/TasksPartial", ".simulacion-inner");
-            }, 1000)
+            }, 3000)
         }
     })
 

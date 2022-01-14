@@ -38,11 +38,15 @@ namespace TaskManager.Controllers
                     {
                         taskData = await _myContext.Tasks.FindAsync(thread.TaskId);
                         taskData.CurrentWork++;
-                        taskData.State = "Running";
+                        if(taskData.TotalWork>taskData.CurrentWork)
+                            taskData.State = "Running";
+                        else
+                            taskData.State = "Finished";
+
                         await _myContext.SaveChangesAsync();
                 
                     }
-                    await Task.Delay(1000);
+                    await Task.Delay(3000);
 
                 } while (!thread.Source.IsCancellationRequested && taskData.TotalWork > taskData.CurrentWork);
             }
@@ -63,6 +67,25 @@ namespace TaskManager.Controllers
             using (var _context = dbcontextFactory.Create())
             {
                 return PartialView(await _context.Tasks.ToListAsync());
+            }
+        }
+
+        // GET: Processes
+        public async Task<IActionResult> Delete(int id)
+        {
+            using (var _context = dbcontextFactory.Create())
+            {
+                var task = await _context.Tasks.SingleOrDefaultAsync(x => x.Id == id);
+                if (task != null)
+                {
+                    threadManager.RemoveTask(task.Id);
+                    _context.Tasks.Remove(task);
+                    await _context.SaveChangesAsync();
+                    
+                    return Json(new { Success = true });
+                }
+
+                return Json(new { Success = false });
             }
         }
 

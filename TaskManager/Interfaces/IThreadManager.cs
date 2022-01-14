@@ -6,6 +6,6 @@ namespace TaskManager.Interfaces
     {
         void CancelTask(int id);
         Task CreateTask(System.Action<object> action, TaskData task);
-       
+        void RemoveTask(int id);
     }
 }
