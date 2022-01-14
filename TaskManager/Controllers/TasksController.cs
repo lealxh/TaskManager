@@ -65,6 +65,25 @@ namespace TaskManager.Controllers
                 return PartialView(await _context.Tasks.ToListAsync());
             }
         }
+
+        public async Task<IActionResult> CancelThread(int id)
+        {
+            using (var _context = dbcontextFactory.Create())
+            {
+                var task = await _context.Tasks.SingleOrDefaultAsync(x=>x.Id==id);
+                if (task != null)
+                {
+                    task.State = "NotRunning";
+                    await _context.SaveChangesAsync();
+                    threadManager.CancelTask(task.Id);
+                    return Json(new { Success = true });
+                }
+
+
+                return Json(new { Success = false });
+            }
+        }
+
         // GET: Processes
         public async Task<IActionResult> StartAll()
         {

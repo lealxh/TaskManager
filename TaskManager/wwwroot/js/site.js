@@ -14,6 +14,23 @@ StartAll = () => {
     })
 
 }
+
+Cancel = (id) => {
+
+    console.log(id)
+
+    $.ajax({
+        type: 'GET',
+        url: '/Tasks/CancelThread/'+id,
+        success: function (res) {
+            console.log(res)
+            LoadHTML("/Tasks/TasksPartial", ".simulacion-inner");
+            
+        }
+        
+    })
+
+}
 LoadHTML = (url,div) => {
     $.ajax({
         type: 'GET',

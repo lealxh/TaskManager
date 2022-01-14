@@ -11,7 +11,7 @@ var Configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDbContextFactory, DbContextFactory>();
-builder.Services.AddScoped<IThreadManager, ThreadManager>();
+builder.Services.AddSingleton<IThreadManager, ThreadManager>();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 //builder.Services.AddScoped<IDbContextFactory, DbContextFactory>();

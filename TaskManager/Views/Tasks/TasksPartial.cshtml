@@ -10,7 +10,7 @@
             @item.Name
             @if(item.State == "Running")
             { 
-                <a href="#" class="btn bg-danger">Cancel</a>
+                <a href="#" class="btn bg-danger" onclick="Cancel('@item.Id')">Cancel</a>
             }else
             {
                 <a href="#" class="btn btn-success">Start</a>
