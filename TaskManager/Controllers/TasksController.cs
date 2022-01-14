@@ -85,6 +85,22 @@ namespace TaskManager.Controllers
         }
 
         // GET: Processes
+        public async Task<IActionResult> StartSingle(int id)
+        {
+            using (var _context = dbcontextFactory.Create())
+            {
+                var task = await _context.Tasks.SingleOrDefaultAsync(t=>t.Id==id);
+                if(task!=null)
+                this.threadManager.CreateTask(CallBack, task).Start();
+                else
+                    return Json(new { Success = false });
+
+
+                return Json(new { isValid = true });
+            }
+        }
+
+        // GET: Processes
         public async Task<IActionResult> StartAll()
         {
             using (var _context = dbcontextFactory.Create())
