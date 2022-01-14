@@ -1,0 +1,12 @@
+﻿@model IEnumerable<TaskManager.Models.TaskData>
+@{
+    ViewData["Title"] = "Task Manager";
+}
+<div class="simulacion">
+    
+    <h1>Task Manager</h1>
+      <a href="#" class="btn btn-primary">Add New</a>
+    <div class="simulacion-inner">
+       @Html.Partial("TasksPartial",this.Model)
+    </div>
+</div>

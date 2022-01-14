@@ -1,0 +1,23 @@
+﻿@model IEnumerable<TaskManager.Models.TaskData>
+
+
+
+     @foreach (var item in Model)
+     {
+            int perc = item.TotalWork>0 ? ((int)Math.Round((double)(100 * item.CurrentWork) / item.TotalWork)) : 0;  
+
+        <div class="titulo-tarea">
+            @item.Name
+            @if(item.State == "Running")
+            { 
+                <a href="#" class="btn bg-danger">Cancel</a>
+            }else
+            {
+                <a href="#" class="btn btn-success">Start</a>
+            }
+        
+    </div>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width:@perc%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+     </div>
+    }
