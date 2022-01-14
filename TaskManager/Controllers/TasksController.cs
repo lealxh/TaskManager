@@ -8,11 +8,14 @@ namespace TaskManager.Controllers
 {
     public class TasksController : Controller
     {
+       
         private readonly IDbContextFactory dbcontextFactory;
+        private readonly IThreadManager threadManager;
 
-        public TasksController(IDbContextFactory dbcontextFactory)
+        public TasksController(IDbContextFactory dbcontextFactory, IThreadManager threadManager)
         {
             this.dbcontextFactory = dbcontextFactory;
+            this.threadManager = threadManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -23,12 +26,55 @@ namespace TaskManager.Controllers
             
         }
 
+        public async void CallBack(Object state)
+        {
+            try
+            {
+                Models.ThreadState thread = state as Models.ThreadState;
+                TaskData taskData = new TaskData();
+                do
+                {   
+                    using (var _myContext = dbcontextFactory.Create())
+                    {
+                        taskData = await _myContext.Tasks.FindAsync(thread.TaskId);
+                        taskData.CurrentWork++;
+                        taskData.State = "Running";
+                        await _myContext.SaveChangesAsync();
+                
+                    }
+                    await Task.Delay(1000);
+
+                } while (!thread.Source.IsCancellationRequested && taskData.TotalWork > taskData.CurrentWork);
+            }
+            catch (System.Threading.Tasks.TaskCanceledException)
+            {
+                throw;
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         // GET: Processes
         public async Task<IActionResult> TasksPartial()
         {
             using (var _context = dbcontextFactory.Create())
             {
                 return PartialView(await _context.Tasks.ToListAsync());
+            }
+        }
+        // GET: Processes
+        public async Task<IActionResult> StartAll()
+        {
+            using (var _context = dbcontextFactory.Create())
+            {
+                var tasks = await _context.Tasks.ToListAsync();
+                foreach (var item in tasks)
+                    this.threadManager.CreateTask(CallBack, item).Start();
+
+                return Json(new { isValid = true });
             }
         }
 
